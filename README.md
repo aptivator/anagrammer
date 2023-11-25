@@ -20,7 +20,7 @@ Otherwise, the utility would have to be called directly from the source folder.
 
 ### Usage
 
-* Default Usage
+#### Default Usage
 
 The software comes with included default dictionary and can be run without any options,
 e.g., `anagrammer` (if `npm link`ing is successful) or `node ./src/index.js`.
@@ -29,7 +29,7 @@ Running `npm start` command from `anagrammer` directory is also available.  For 
 arrangement, configuration options (whenever they are needed) should be preceded with
 the `--` flag, e.g., `npm start -- --list`.
 
-* Examples
+#### Examples
 
 To load a dictionary file and save it under an alias, run the following:
 
@@ -49,7 +49,7 @@ To activate an existing dictionary, simply pass its name to the software.
 anagrammer -n full
 ```
 
-* Configuration Options
+#### Configuration Options
 
 Running `anagrammer -h` will describe all of the features that the software currently
 supports.
