@@ -1,0 +1,19 @@
+{
+  "name": "anagrammer",
+  "version": "0.0.1",
+  "description": "command-line anagram finder",
+  "main": "src/index.js",
+  "author": "Dmitriy Nesterkin",
+  "scripts": {
+    "start": "node ./"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "commander": "^11.1.0",
+    "enquirer": "^2.4.1",
+    "figlet": "^1.7.0"
+  },
+  "bin": {
+    "anagrammer": "src/index.js"
+  }
+}
