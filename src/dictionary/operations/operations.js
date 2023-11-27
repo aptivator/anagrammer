@@ -16,11 +16,11 @@ function fetchAndProcessDictionary(dictionaryPath) {
     let {length: wordCount} = words;
   
     for(let word of words) {
-      let [anagrammed, wordAdj] = toAnagramForm(word);
-      let entries = dictionary[anagrammed];
+      let [anagramForm, wordAdj] = toAnagramForm(word);
+      let entries = dictionary[anagramForm];
   
       if(!entries) {
-        entries = dictionary[anagrammed] = [];
+        entries = dictionary[anagramForm] = [];
       }
   
       if(!entries.includes(wordAdj)) {
