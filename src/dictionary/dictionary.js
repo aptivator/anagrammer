@@ -66,4 +66,4 @@ function respondToOptionsOrGetDictionary(options) {
 
 module.exports = {
   respondToOptionsOrGetDictionary
-}
+};
