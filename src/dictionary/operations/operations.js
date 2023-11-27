@@ -6,34 +6,39 @@ let {defaultName}          = require('../../_lib/vars');
 let {getDictionariesPath}  = require('./_lib/utils');
 
 function fetchAndProcessDictionary(dictionaryPath) {
-  let start = performance.now();
-  let dictionary = {};
   let dictionaryPathFull = path.resolve(process.cwd(), dictionaryPath);
-  let dictionaryContents = fs.readFileSync(dictionaryPathFull, 'utf-8');
-  let words = dictionaryContents.split(/\s/);
-  let {length: wordCount} = words;
 
-  for(let word of words) {
-    let [anagrammed, wordAdj] = toAnagramForm(word);
-    let entries = dictionary[anagrammed];
-
-    if(!entries) {
-      entries = dictionary[anagrammed] = [];
+  if(fs.existsSync(dictionaryPathFull)) {
+    let start = performance.now();
+    let dictionary = {};
+    let dictionaryContents = fs.readFileSync(dictionaryPathFull, 'utf-8');
+    let words = dictionaryContents.split(/\s/);
+    let {length: wordCount} = words;
+  
+    for(let word of words) {
+      let [anagrammed, wordAdj] = toAnagramForm(word);
+      let entries = dictionary[anagrammed];
+  
+      if(!entries) {
+        entries = dictionary[anagrammed] = [];
+      }
+  
+      if(!entries.includes(wordAdj)) {
+        entries.push(wordAdj);
+      }
     }
-
-    if(!entries.includes(wordAdj)) {
-      entries.push(wordAdj);
+  
+    for(let [key, entries] of Object.entries(dictionary)) {
+      if(entries.length === 1) {
+        delete dictionary[key];
+      }
     }
+  
+    console.log(`imported ${wordCount} words in ${(performance.now() - start).toFixed(2)}ms`.green);
+    return dictionary;
   }
 
-  for(let [key, entries] of Object.entries(dictionary)) {
-    if(entries.length === 1) {
-      delete dictionary[key];
-    }
-  }
-
-  console.log(`imported ${wordCount} words in ${(performance.now() - start).toFixed(2)}ms`.green);
-  return dictionary;
+  error(`dictionary file path "${dictionaryPathFull}" is invalid`);
 }
 
 function fetchDictionary(dictionaryName) {
