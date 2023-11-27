@@ -30,7 +30,7 @@ function getDictionary(options) {
         error(`dictionary "${name}" already exists.  Use --override flag to replace.`)
       }
     } else {
-      error(`cannot overwrite a "${defaultName}" dictionary`);
+      error(`cannot overwrite "${defaultName}" dictionary`);
     }
   }
 
