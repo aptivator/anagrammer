@@ -7,14 +7,16 @@ let {removeDictionary}           = require('./operations/operations');
 let {writeDictionary}            = require('./operations/operations');
 
 function getDictionary(options) {
-  let {file, name  = '', override} = options;
+  let {file, name = '', override} = options;
   let dictionaries = getListOfDictionaries();
 
   if(file) {
     name = name.toLowerCase();
 
     if(name !== defaultName) {
-      if((name && !dictionaries[name]) || (dictionaries[name] && override) || !name) {
+      let hasDictionary = dictionaries[name];
+
+      if((name && !hasDictionary) || (hasDictionary && override) || !name) {
         let dictionary = fetchAndProcessDictionary(file);
 
         if(name) {
@@ -32,8 +34,12 @@ function getDictionary(options) {
     }
   }
 
-  if(!name || name === defaultName) {
-    return fetchDictionary(defaultName);
+  if(!name) {
+    name = defaultName;
+  }
+
+  if(dictionaries[name]) {
+    return fetchDictionary(name);
   }
 
   error(`dictionary "${name}" does not exist`);
