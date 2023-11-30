@@ -80,8 +80,8 @@ are also available.  Current tests invoke all of the software's functionality.
 Each of the tests launches `anagrammer` as a standalone CLI application and interacts with it.
 As a result, the tests will run slower than usual.
 
-When inputting words via the command-line prompt, "Enter" key is triggered by its respective code.
-On Windows systems such a mechanism may not work.
+During testing, when inputting words via the command-line prompt, "Enter" key is triggered by
+its respective code.  On Windows systems such a mechanism may not work.
 
 ### Other Notes
 
