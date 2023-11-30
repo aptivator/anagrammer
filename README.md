@@ -1,5 +1,18 @@
 # anagrammer
 
+## Table of Contents
+
+* [Introduction](#introduction)
+* [Installation](#installation)
+* [Usage](#usage)
+  * [Default Usage](#default-usage)
+  * [Examples](#examples)
+  * [Configuration Options](#configuration-options)
+* [Development](#development)
+  * [Development Setup](#development-setup)
+  * [Development Caveats](#development-caveats)
+* [Other Notes](#other-notes)
+
 ### Introduction
 
 Anagram of a word is another word with the same letters in a different order.  This
@@ -11,8 +24,8 @@ for anagrams.
 `anagrammer` is written in JavaScript and requires Node.js and NPM to run.  The best way
 to install the latter is to use [NVM](https://github.com/nvm-sh/nvm#installing-and-updating).
 
-After Node.js and NPM are installed, run `npm install` inside the directory where this
-README.md is found.
+After Node.js and NPM are installed, clone this repository, and run `npm install` inside the
+directory where this README.md is found.
 
 On Unix-like systems, the software can be made available globally by running `npm link`.
 If the operation is successful, `anagrammer` command can be invoked from the console.
@@ -53,6 +66,22 @@ anagrammer -n full
 
 Running `anagrammer -h` will describe all of the features that the software currently
 supports.
+
+### Development
+
+#### Development Setup
+
+Running `npm install` will include all of the necessary dependencies.  To start development
+mode run `npm run dev` or `npm run dev:coverage`.  Single-run `npm run test` and `npm run test:coverage`
+are also available.  Current tests invoke all of the software's functionality.
+
+#### Development Caveats
+
+Each of the tests launches `anagrammer` as a standalone CLI application and interacts with it.
+As a result, the tests will run slower than usual.
+
+When inputting words via the command-line prompt, "Enter" key is triggered by its respective code.
+On Windows systems such a mechanism may not work.
 
 ### Other Notes
 
