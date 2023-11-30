@@ -8,7 +8,7 @@ let {removeEscapeChars}                        = require('./_lib/utils');
 
 describe('anagrammer', () => {
   let scriptPath = path.resolve(__dirname, '../src/index.js');
-  let dictionaryPath = path.resolve(process.cwd(), './test/_fixtures/sample-dictionary.txt');
+  let dictionaryPath = path.resolve(process.cwd(), './test/sample-dictionary.txt');
   let words = '  post\t\tspot\nopts\t den end    place';
   let wordsProcessed = words.trim().split(/\s+/);
   let anagramsCount = 5;
