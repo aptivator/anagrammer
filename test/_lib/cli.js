@@ -1,5 +1,5 @@
-let spawn                                            = require('cross-spawn');
 let concat                                           = require('concat-stream');
+let spawn                                            = require('cross-spawn');
 let fs                                               = require('fs');
 let {constants}                                      = require('os');
 let {getPromptRx, removeEscapeChars, transformInput} = require('./utils');
