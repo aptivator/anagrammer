@@ -3,6 +3,7 @@ let concat                                           = require('concat-stream');
 let fs                                               = require('fs');
 let {constants}                                      = require('os');
 let {getPromptRx, removeEscapeChars, transformInput} = require('./utils');
+let {operationsTimeBuffer}                           = require('./vars');
 
 function spawnChild(scriptPath, args, env) {
   if(fs.existsSync(scriptPath)) {
@@ -30,7 +31,7 @@ function cli({scriptPath, args = [], inputs = [], env = {}, inputPrompt = ''}) {
 
     child.stdin.setEncoding('utf-8');
     child.stderr.once('data', handleError);
-    child.on('error', handleError);
+    child.once('error', handleError);
     child.stdout.pipe(concat((output) => resolve(output.toString())));
 
     if(inputs.length) {
@@ -48,7 +49,7 @@ function cli({scriptPath, args = [], inputs = [], env = {}, inputPrompt = ''}) {
             child.stdout.off('data', initiateNextInput);
   
             if(++index < inputs.length) {
-              return setTimeout(() => writeInputs(index), 10);
+              return setTimeout(() => writeInputs(index), operationsTimeBuffer);
             }
   
             child.stdin.end();
@@ -64,14 +65,14 @@ function cli({scriptPath, args = [], inputs = [], env = {}, inputPrompt = ''}) {
 
         if(promptRx.test(data)) {
           child.stdout.off('data', initiateInputWriting);
-          setTimeout(() => writeInputs(), 10);
+          setTimeout(() => writeInputs(), operationsTimeBuffer);
         }
       }
 
       return child.stdout.on('data', initiateInputWriting);
     }
     
-    setTimeout(() => child.stdin.end(), 10);
+    setTimeout(() => child.stdin.end(), operationsTimeBuffer);
   });
 }
 
