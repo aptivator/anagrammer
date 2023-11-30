@@ -4,7 +4,7 @@ let {toAnagramForm} = require('../_lib/utils');
 module.exports = {
   startAnagrammer([dictionaryName, dictionary]) {
     console.log('provide a word to find its anagrams');
-    console.log('to quit press Ctrl + C or type .exit');
+    console.log('to quit type .exit or press Ctrl + C');
     console.log();
 
     (function run() {
@@ -28,6 +28,7 @@ module.exports = {
           return run();
         }
     
+        console.log('Bye!');
         process.exit(0);
       }).catch(console.log);
     })();

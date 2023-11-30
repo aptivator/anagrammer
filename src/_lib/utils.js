@@ -2,7 +2,7 @@ let {softwareName} = require('./vars');
 
 module.exports = {
   error(errorMessage) {
-    console.error(`${softwareName}: ${errorMessage}`.red);
+    console.log(`${softwareName}: ${errorMessage}`.red);
     process.exit(1);
   },
 

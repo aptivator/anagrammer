@@ -12,8 +12,9 @@ function fetchAndProcessDictionary(dictionaryPath) {
     let start = performance.now();
     let dictionary = {};
     let dictionaryContents = fs.readFileSync(dictionaryPathFull, 'utf-8');
-    let words = dictionaryContents.split(/\s/);
+    let words = dictionaryContents.trim().split(/\s+/);
     let {length: wordCount} = words;
+    let anagrammableWords = 0;
   
     for(let word of words) {
       let [anagramForm, wordAdj] = toAnagramForm(word);
@@ -24,17 +25,20 @@ function fetchAndProcessDictionary(dictionaryPath) {
       }
   
       if(!entries.includes(wordAdj)) {
+        anagrammableWords++;
         entries.push(wordAdj);
       }
     }
   
     for(let [key, entries] of Object.entries(dictionary)) {
       if(entries.length === 1) {
+        anagrammableWords--;
         delete dictionary[key];
       }
     }
   
-    console.log(`imported ${wordCount} words in ${(performance.now() - start).toFixed(2)}ms`.green);
+    console.log(`processed ${wordCount} words in ${(performance.now() - start).toFixed(2)}ms`.green);
+    console.log(`imported ${anagrammableWords} anagrammable words`);
     return dictionary;
   }
 

@@ -5,7 +5,11 @@
   "main": "src/index.js",
   "author": "Dmitriy Nesterkin",
   "scripts": {
-    "start": "node ./"
+    "start": "node ./",
+    "test": "mocha ./test/**/*.test.js ./test/*.test.js --timeout 10000",
+    "test:coverage": "c8 --reporter=text npm run test",
+    "dev": "npm test & run-when-changed --watch \"src/**/*.js\" --watch \"test/**/*.js\" --exec \"npm test\"",
+    "dev:coverage": "npm run test:coverage & run-when-changed --watch \"src/**/*.js\" --watch \"test/**/*.js\" --exec \"npm run test:coverage\""
   },
   "dependencies": {
     "colors": "^1.4.0",
@@ -15,5 +19,14 @@
   },
   "bin": {
     "anagrammer": "src/index.js"
+  },
+  "devDependencies": {
+    "c8": "^8.0.1",
+    "chai": "^4.3.10",
+    "concat-stream": "^2.0.0",
+    "cross-spawn": "^7.0.3",
+    "mocha": "^10.2.0",
+    "run-when-changed": "^2.1.0",
+    "strip-ansi-control-characters": "^2.0.0"
   }
 }
