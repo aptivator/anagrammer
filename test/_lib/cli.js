@@ -38,13 +38,13 @@ function cli({scriptPath, args = [], inputs = [], env = {}, inputPrompt = ''}) {
       let promptRx = getPromptRx(inputPrompt);
 
       function writeInputs(index = 0) {
-        let inputSet = transformInput(inputs[index]);
-        let promptStr = inputPrompt + ' ' + inputSet;
+        let input = transformInput(inputs[index]);
+        let promptStr = inputPrompt + ' ' + input;
         let promptRx = getPromptRx(promptStr);
   
         function initiateNextInput(data) {
           data = removeEscapeChars(data);
-  
+
           if(promptRx.test(data)) {
             child.stdout.off('data', initiateNextInput);
   
@@ -57,7 +57,7 @@ function cli({scriptPath, args = [], inputs = [], env = {}, inputPrompt = ''}) {
         }
   
         child.stdout.on('data', initiateNextInput);
-        child.stdin.write(inputSet);
+        child.stdin.write(input);
       }
 
       function initiateInputWriting(data) {

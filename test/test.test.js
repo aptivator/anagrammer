@@ -147,5 +147,12 @@ describe('anagrammer', () => {
       let output = await execute({inputs: [['.exit', ENTER]], inputPrompt}, true);
       expect(output).to.include('Bye!');
     });
+
+    it('performs multiple word lookups', async() => {
+      let output = await execute({inputs: [['slay', ENTER], ['stay', ENTER], ['.exit', ENTER]]}, true);
+      expect(output).to.include("'slay' has the following anagram: lyas");
+      expect(output).to.include("'stay' has no anagrams");
+      expect(output).to.include('Bye!');
+    });
   });
 });

@@ -19,8 +19,9 @@ module.exports = {
           let anagrams = dictionary[anagramForm];
 
           if(anagrams) {
+            let ending = anagrams.length === 2 ? '' : 's';
             anagrams = anagrams.filter((word) => word !== wordAdj).join(', ');
-            console.log(`'${word}' has the following anagrams: ${anagrams}`);
+            console.log(`'${word}' has the following anagram${ending}: ${anagrams}`);
           } else {
             console.log(`'${word}' has no anagrams`.red);
           }
