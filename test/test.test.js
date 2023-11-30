@@ -7,6 +7,7 @@ let {cli, ENTER}                               = require('./_lib/cli');
 let {removeEscapeChars}                        = require('./_lib/utils');
 
 describe('anagrammer', () => {
+  let alias = 'extra';
   let scriptPath = path.resolve(__dirname, '../src/index.js');
   let dictionaryPath = path.resolve(process.cwd(), './test/sample-dictionary.txt');
   let words = '  post\t\tspot\nopts\t den end    place';
@@ -36,6 +37,12 @@ describe('anagrammer', () => {
       expect(Object.keys(dictionaries)).to.eql(['default']);
     });
 
+    it('alerts whenever an incorrect dictionary path is provided', async () => {
+      let incorrectPath = path.resolve(process.cwd(), 'some-incorrect-path-to-dictionary.txt');
+      let output = await execute({args: ['-f', incorrectPath]}, true);
+      expect(output).to.include(`dictionary file path "${incorrectPath}" is invalid`);
+    });
+
     it('outputs to the console how many words were processed', async () => {
       let output = await execute({args: ['-f', dictionaryPath]}, true);
       let expectedProcessedCount = `processed ${wordsProcessed.length} words`;
@@ -55,17 +62,15 @@ describe('anagrammer', () => {
     });
 
     it('imports a dictionary file and saves it under an alias', async () => {
-      let alias = 'extra';
       let output = await execute({args: ['-f', dictionaryPath, '-n', alias]});
       let expectedPrompt = `${softwareName} (${alias})`;
       let dictionaries = getListOfDictionaries();
       expect(Object.keys(dictionaries).includes(alias)).to.be.true;
       expect(output).to.include(expectedPrompt);
-      await execute({args: ['-r', 'extra']});
+      await execute({args: ['-r', alias]});
     });
 
     it('activates a previously imported dictionary', async () => {
-      let alias = 'extra';
       await execute({args: ['-f', dictionaryPath, '-n', alias]});
       let expectedPrompt = `${softwareName} (${alias})`;
       let output = await execute({args: ['-n', alias]});
@@ -80,7 +85,6 @@ describe('anagrammer', () => {
     });
 
     it('removes an imported dictionary', async () => {
-      let alias = 'extra';
       await execute({args: ['-f', dictionaryPath, '-n', alias]});
       let dictionaries = getListOfDictionaries();
       expect(dictionaries[alias]).to.equal(`${alias}.json`);
@@ -89,37 +93,9 @@ describe('anagrammer', () => {
       expect(dictionaries[alias]).to.be.undefined;
     });
 
-    it('terminates whenever an existing dictionary attempted to be overwritten', async () => {
-      let alias = 'extra';
-      await execute({args: ['-f', dictionaryPath, '-n', alias]});
-      let output = await execute({args: ['-f', dictionaryPath, '-n', alias]});
-      expect(output).to.include(`dictionary "${alias}" already exists`);
-      await execute({args: ['--remove', alias]});
-    });
-
-    it('overwrites an existing dictionary when --override flag is provided', async () => {
-      let alias = 'extra';
-      await execute({args: ['-f', dictionaryPath, '-n', alias]});
-      await execute({args: ['-f', dictionaryPath, '-n', alias, '-o']});
-      await execute({args: ['-r', alias]});
-    });
-
-    it('lists available dictionaries', async () => {
-      let alias = 'extra';
-      await execute({args: ['-f', dictionaryPath, '-n', alias]});
-      let output = await execute({args: ['--list']}, true);
-      expect(output).to.include(`dictionaries are available: default, ${alias}`);
-      await execute({args: ['-r', alias]});
-    });
-
     it('errors whenever "default" dictionary is attempted to be removed', async () => {
       let output = await execute({args: ['-r', 'default']}, true);
       expect(output).to.include('cannot remove "default" dictionary');
-    });
-
-    it('prevents "default" dictionary to be overwritten', async () => {
-      let output = await execute({args: ['-f', dictionaryPath, '-n', 'default', '-o']}, true);
-      expect(output).to.include('cannot overwrite "default" dictionary');
     });
 
     it('notifies whenever a non-existing dictionary is attempted to be removed', async () => {
@@ -128,10 +104,29 @@ describe('anagrammer', () => {
       expect(output).to.include(`dictionary "${incorrectDictionaryName}" does not exist`);
     });
 
-    it('alerts whenever an incorrect dictionary path is provided', async () => {
-      let incorrectPath = path.resolve(process.cwd(), 'some-incorrect-path-to-dictionary.txt');
-      let output = await execute({args: ['-f', incorrectPath]}, true);
-      expect(output).to.include(`dictionary file path "${incorrectPath}" is invalid`);
+    it('terminates whenever an existing dictionary attempted to be overwritten', async () => {
+      await execute({args: ['-f', dictionaryPath, '-n', alias]});
+      let output = await execute({args: ['-f', dictionaryPath, '-n', alias]});
+      expect(output).to.include(`dictionary "${alias}" already exists`);
+      await execute({args: ['--remove', alias]});
+    });
+
+    it('overwrites an existing dictionary when --override flag is provided', async () => {
+      await execute({args: ['-f', dictionaryPath, '-n', alias]});
+      await execute({args: ['-f', dictionaryPath, '-n', alias, '-o']});
+      await execute({args: ['-r', alias]});
+    });
+
+    it('prevents "default" dictionary to be overwritten', async () => {
+      let output = await execute({args: ['-f', dictionaryPath, '-n', 'default', '-o']}, true);
+      expect(output).to.include('cannot overwrite "default" dictionary');
+    });
+
+    it('lists available dictionaries', async () => {
+      await execute({args: ['-f', dictionaryPath, '-n', alias]});
+      let output = await execute({args: ['--list']}, true);
+      expect(output).to.include(`dictionaries are available: default, ${alias}`);
+      await execute({args: ['-r', alias]});
     });
   });
 

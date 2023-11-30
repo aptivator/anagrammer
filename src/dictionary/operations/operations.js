@@ -38,7 +38,7 @@ function fetchAndProcessDictionary(dictionaryPath) {
     }
   
     console.log(`processed ${wordCount} words in ${(performance.now() - start).toFixed(2)}ms`.green);
-    console.log(`imported ${anagrammableWords} anagrammable words`);
+    console.log(`imported ${anagrammableWords} anagrammable words`.green);
     return dictionary;
   }
 
