@@ -26,7 +26,6 @@
     "concat-stream": "^2.0.0",
     "cross-spawn": "^7.0.3",
     "mocha": "^10.2.0",
-    "run-when-changed": "^2.1.0",
-    "strip-ansi-control-characters": "^2.0.0"
+    "run-when-changed": "^2.1.0"
   }
 }
