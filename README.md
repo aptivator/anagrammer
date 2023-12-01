@@ -81,7 +81,8 @@ Each of the tests launches `anagrammer` as a standalone CLI application and inte
 As a result, the tests will run slower than usual.
 
 During testing, when inputting words via the command-line prompt, "Enter" key is triggered by
-its respective code.  On Windows systems such a mechanism may not work.
+its respective code.  Tests were successfully run on Linux and latest Windows systems.  On some
+installations such a mechanism may not work.
 
 ### Other Notes
 
