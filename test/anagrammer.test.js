@@ -104,7 +104,7 @@ describe('anagrammer', () => {
       expect(output).to.include(`dictionary "${incorrectDictionaryName}" does not exist`);
     });
 
-    it('terminates whenever an existing dictionary attempted to be overwritten', async () => {
+    it('terminates whenever an existing dictionary is attempted to be overwritten', async () => {
       await execute({args: ['-f', dictionaryPath, '-n', alias]});
       let output = await execute({args: ['-f', dictionaryPath, '-n', alias]});
       expect(output).to.include(`dictionary "${alias}" already exists`);
@@ -149,7 +149,7 @@ describe('anagrammer', () => {
     });
 
     it('performs multiple word lookups', async() => {
-      let output = await execute({inputs: [['slay', ENTER], ['stay', ENTER], ['.exit', ENTER]]}, true);
+      let output = await execute({inputs: [['slay', ENTER], ['stay', ENTER], ['.exit', ENTER]], inputPromptRxStr}, true);
       expect(output).to.include("'slay' has the following anagram: lyas");
       expect(output).to.include("'stay' has no anagrams");
       expect(output).to.include('Bye!');
