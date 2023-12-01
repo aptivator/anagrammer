@@ -21,7 +21,6 @@ function spawnChild(scriptPath, args, env) {
 function cli(configs) {
   return new Promise((resolve, reject) => {
     let {scriptPath, args = [], inputs = [], env = {}} = configs;
-    let {inputPromptRxStr = '', inputDelay = 5} = configs;
     let child = spawnChild(scriptPath, args, env);
 
     function handleError(err) {
@@ -36,6 +35,7 @@ function cli(configs) {
     child.stdout.pipe(concat((output) => resolve(output.toString())));
 
     if(inputs.length) {
+      let {inputPromptRxStr = '', inputDelay = 5} = configs;
       let promptRx = getPromptRx(inputPromptRxStr);
 
       function writeInputs(index = 0) {
