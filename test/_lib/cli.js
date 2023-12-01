@@ -3,7 +3,6 @@ let spawn                                            = require('cross-spawn');
 let fs                                               = require('fs');
 let {constants}                                      = require('os');
 let {getPromptRx, removeEscapeChars, transformInput} = require('./utils');
-let {operationsTimeBuffer}                           = require('./vars');
 
 function spawnChild(scriptPath, args, env) {
   if(fs.existsSync(scriptPath)) {
@@ -19,8 +18,10 @@ function spawnChild(scriptPath, args, env) {
   throw new Error(`invalid script path: ${scriptPath}`);
 }
 
-function cli({scriptPath, args = [], inputs = [], env = {}, inputPromptRxStr = ''}) {
+function cli(configs) {
   return new Promise((resolve, reject) => {
+    let {scriptPath, args = [], inputs = [], env = {}} = configs;
+    let {inputPromptRxStr = '', inputDelay = 5} = configs;
     let child = spawnChild(scriptPath, args, env);
 
     function handleError(err) {
@@ -48,7 +49,7 @@ function cli({scriptPath, args = [], inputs = [], env = {}, inputPromptRxStr = '
             child.stdout.off('data', initiateNextInput);
   
             if(++index < inputs.length) {
-              return setTimeout(() => writeInputs(index), operationsTimeBuffer);
+              return setTimeout(() => writeInputs(index), inputDelay);
             }
   
             child.stdin.end();
@@ -64,14 +65,14 @@ function cli({scriptPath, args = [], inputs = [], env = {}, inputPromptRxStr = '
 
         if(promptRx.test(data)) {
           child.stdout.off('data', initiateInputWriting);
-          setTimeout(() => writeInputs(), operationsTimeBuffer);
+          writeInputs();
         }
       }
 
       return child.stdout.on('data', initiateInputWriting);
     }
     
-    setTimeout(() => child.stdin.end(), operationsTimeBuffer);
+    child.stdin.end();
   });
 }
 
