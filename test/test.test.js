@@ -131,20 +131,20 @@ describe('anagrammer', () => {
   });
 
   describe('anagram querying', () => {
-    let inputPrompt = 'anagrammer (default) ‣';
+    let inputPromptRxStr = 'anagrammer\\s+\\(default\\)\\s+.\\s+';
 
     it('returns anagrams for a word', async () => {
-      let output = await execute({inputs: [['stop', ENTER]], inputPrompt}, true);
+      let output = await execute({inputs: [['stop', ENTER]], inputPromptRxStr}, true);
       expect(output).to.include(`'stop' has the following anagrams: post, spot, tops`);
     });
 
     it('feedbacks whenever there are no anagrams', async () => {
-      let output = await execute({inputs: [['blatant', ENTER]], inputPrompt}, true);
+      let output = await execute({inputs: [['blatant', ENTER]], inputPromptRxStr}, true);
       expect(output).to.include(`'blatant' has no anagrams`);
     });
 
     it('quits whenever ".exit" word is received', async () => {
-      let output = await execute({inputs: [['.exit', ENTER]], inputPrompt}, true);
+      let output = await execute({inputs: [['.exit', ENTER]], inputPromptRxStr}, true);
       expect(output).to.include('Bye!');
     });
 

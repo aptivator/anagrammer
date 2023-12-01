@@ -1,9 +1,12 @@
 let {ansiEscapeRx, specialCharsRx} = require('./vars');
 
 module.exports = {
-  getPromptRx(promptStr) {
-    promptStr = promptStr.replace(specialCharsRx, "\\$&").replace(/\s+/g, '\\s+');
-    return new RegExp(promptStr, 'gi');
+  getPromptRx(inputPromptRxStr, input = '') {
+    if(input) {
+      input = input.replace(specialCharsRx, '\\$&').replace(/\s+/g, '\\s+');
+    }
+
+    return new RegExp(inputPromptRxStr + input, 'gi');
   },
 
   removeEscapeChars(data) {

@@ -19,7 +19,7 @@ function spawnChild(scriptPath, args, env) {
   throw new Error(`invalid script path: ${scriptPath}`);
 }
 
-function cli({scriptPath, args = [], inputs = [], env = {}, inputPrompt = ''}) {
+function cli({scriptPath, args = [], inputs = [], env = {}, inputPromptRxStr = ''}) {
   return new Promise((resolve, reject) => {
     let child = spawnChild(scriptPath, args, env);
 
@@ -35,13 +35,12 @@ function cli({scriptPath, args = [], inputs = [], env = {}, inputPrompt = ''}) {
     child.stdout.pipe(concat((output) => resolve(output.toString())));
 
     if(inputs.length) {
-      let promptRx = getPromptRx(inputPrompt);
+      let promptRx = getPromptRx(inputPromptRxStr);
 
       function writeInputs(index = 0) {
         let input = transformInput(inputs[index]);
-        let promptStr = inputPrompt + ' ' + input;
-        let promptRx = getPromptRx(promptStr);
-  
+        let promptRx = getPromptRx(inputPromptRxStr, input);
+
         function initiateNextInput(data) {
           data = removeEscapeChars(data);
 
