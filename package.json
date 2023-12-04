@@ -15,7 +15,8 @@
     "colors": "^1.4.0",
     "commander": "^11.1.0",
     "enquirer": "^2.4.1",
-    "figlet": "^1.7.0"
+    "figlet": "^1.7.0",
+    "lodash.debounce": "^4.0.8"
   },
   "bin": {
     "anagrammer": "src/index.js"

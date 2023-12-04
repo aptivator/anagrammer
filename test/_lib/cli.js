@@ -20,7 +20,7 @@ function spawnChild(scriptPath, args, env) {
 
 function cli(configs) {
   return new Promise((resolve, reject) => {
-    let {scriptPath, args = [], inputs = [], env = {}} = configs;
+    let {scriptPath = '', args = [], inputs = [], env = {}} = configs;
     let child = spawnChild(scriptPath, args, env);
 
     function handleError(err) {

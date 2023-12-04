@@ -149,7 +149,8 @@ describe('anagrammer', () => {
     });
 
     it('performs multiple word lookups', async() => {
-      let output = await execute({inputs: [['slay', ENTER], ['stay', ENTER], ['.exit', ENTER]], inputPromptRxStr}, true);
+      let inputs = [['slay', ENTER], ['stay', ENTER], ['.exit', ENTER]];
+      let output = await execute({inputs, inputPromptRxStr}, true);
       expect(output).to.include("'slay' has the following anagram: lyas");
       expect(output).to.include("'stay' has no anagrams");
       expect(output).to.include('Bye!');
