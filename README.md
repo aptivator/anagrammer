@@ -15,9 +15,11 @@
 
 ### Introduction
 
-Anagram of a word is another word with the same letters in a different order.  This
-software provides a command line interface to manage dictionaries and to query them
-for anagrams.
+Anagram of a word is another word with the same letters in a different order.  This software
+provides a command-line interface (CLI) to manage dictionaries and to query them for anagrams.
+
+`anagrammer` was written as a part of a technical assessment.  The source code is provided
+as a demo highlighting building and testing of Node.js interactive CLI applications.
 
 ### Installation
 
